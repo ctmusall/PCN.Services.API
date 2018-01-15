@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailAPI", "EmailAPI\EmailAPI.csproj", "{ABD1B30C-AA2E-4BA0-AFB0-B4B2F75E29FF}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{BD1A1B00-095D-4BED-BEE0-7A1FA22513AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ABD1B30C-AA2E-4BA0-AFB0-B4B2F75E29FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABD1B30C-AA2E-4BA0-AFB0-B4B2F75E29FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABD1B30C-AA2E-4BA0-AFB0-B4B2F75E29FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABD1B30C-AA2E-4BA0-AFB0-B4B2F75E29FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD1A1B00-095D-4BED-BEE0-7A1FA22513AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD1A1B00-095D-4BED-BEE0-7A1FA22513AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD1A1B00-095D-4BED-BEE0-7A1FA22513AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD1A1B00-095D-4BED-BEE0-7A1FA22513AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6BC70EBA-979E-47BD-BDF2-980C53C6614E}
+	EndGlobalSection
+EndGlobal
