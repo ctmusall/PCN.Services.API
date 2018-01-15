@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
-namespace EmailAPI
+namespace Email.API
 {
     public class Startup
     {
@@ -22,8 +22,10 @@ namespace EmailAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -33,11 +35,12 @@ namespace EmailAPI
                 app.UseExceptionHandler();
             }
 
-            app.UseMvc();
-
-            app.Run(async FileLoadExceptionContext =>
+            app.UseMvc(config =>
             {
-                throw new Exception("Test Dev Exception Page");
+                config.MapRoute(
+                    "Default",
+                    "{controller}/{action}/{id?}"
+                );
             });
         }
     }
