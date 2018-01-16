@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Email.API.Interfaces;
+using Email.API.Repositories;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 
 namespace Email.API
 {
@@ -18,7 +22,16 @@ namespace Email.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddTransient<ILoggedEmailRepository, LoggedEmailRepository>();
+            services.AddMvc().AddJsonOptions(option =>
+            {
+                if (option.SerializerSettings.ContractResolver == null) return;
+                if (option.SerializerSettings.ContractResolver is DefaultContractResolver resolver) resolver.NamingStrategy = null;
+            }).AddMvcOptions(option =>
+            {
+                option.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                option.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,13 +48,9 @@ namespace Email.API
                 app.UseExceptionHandler();
             }
 
-            app.UseMvc(config =>
-            {
-                config.MapRoute(
-                    "Default",
-                    "{controller}/{action}/{id?}"
-                );
-            });
+            app.UseStatusCodePages();
+
+            app.UseMvc();
         }
     }
 }

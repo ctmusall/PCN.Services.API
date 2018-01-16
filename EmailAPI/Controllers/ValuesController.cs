@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Email.API.Controllers
 {
+    [Route("api/[controller]")]
     public class ValuesController : Controller
     {
         // GET api/values
