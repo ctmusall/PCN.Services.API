@@ -1,8 +1,11 @@
-﻿using Email.API.Interfaces;
+﻿using Email.API.Data;
+using Email.API.Interfaces;
+using Email.API.Models;
 using Email.API.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -23,6 +26,7 @@ namespace Email.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ILoggedEmailRepository, LoggedEmailRepository>();
+            services.AddDbContext<EmailContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().AddJsonOptions(option =>
             {
                 if (option.SerializerSettings.ContractResolver == null) return;

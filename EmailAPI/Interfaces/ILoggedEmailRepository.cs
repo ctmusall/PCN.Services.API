@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Email.API.Models;
 
 namespace Email.API.Interfaces
 {
     public interface ILoggedEmailRepository
     {
-        List<LoggedEmail> RetrieveAllLoggedEmails();
+        Task<List<LoggedEmail>> RetrieveAllLoggedEmails();
+        Task<LoggedEmail> RetrieveLoggedEmailById(Guid id);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Threading.Tasks;
 using Email.API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,20 +16,25 @@ namespace Email.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(_loggedEmailRepository.RetrieveAllLoggedEmails());
+            return Ok(await _loggedEmailRepository.RetrieveAllLoggedEmails());
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var loggedEmail = _loggedEmailRepository.RetrieveAllLoggedEmails().FirstOrDefault(email => email.Id == id);
+            var loggedEmail = await _loggedEmailRepository.RetrieveLoggedEmailById(id);
 
             if (loggedEmail == null) return NotFound();
 
             return Ok(loggedEmail);
         }
 
+        [HttpPost]
+        public IActionResult Post()
+        {
+            return Accepted();
+        }
     }
 }

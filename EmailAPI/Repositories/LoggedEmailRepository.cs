@@ -1,19 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Email.API.Data;
 using Email.API.Interfaces;
 using Email.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Email.API.Repositories
 {
     public class LoggedEmailRepository : ILoggedEmailRepository
     {
-        public List<LoggedEmail> RetrieveAllLoggedEmails()
+        private readonly EmailContext _context;
+
+        public LoggedEmailRepository(EmailContext context)
         {
-            return new List<LoggedEmail>
-            {
-                new LoggedEmail { Id = new Guid("2d083541-1665-427b-830a-ac99d9510328"), DateTimeSent = DateTime.Now, FromAddress = "cmusall@pcnclosings.com", ToAddress = "cmusall@pcnclosings.com", Subject = "Hello World!", Message = "Hello from the email web API!"},
-                new LoggedEmail { Id = new Guid("72d67fe2-4463-41f1-a8e6-6210dce74ee1"), DateTimeSent = DateTime.Now, FromAddress = "cmusall@pcnclosings.com", ToAddress = "helloworld@pcnclosings.com", Subject = "Hello World!", Message = "Hello from the email web API!"}
-            };
+            _context = context;
+        }
+
+        public async Task<List<LoggedEmail>> RetrieveAllLoggedEmails()
+        {
+            return await _context.LoggedEmails.ToListAsync();
+        }
+
+        public async Task<LoggedEmail> RetrieveLoggedEmailById(Guid id)
+        {
+            return await _context.LoggedEmails.FirstOrDefaultAsync(email => email.Id == id);
         }
     }
 }
