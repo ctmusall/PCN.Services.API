@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace Email.API
@@ -29,6 +30,7 @@ namespace Email.API
             services.AddDbContext<EmailContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().AddJsonOptions(option =>
             {
+                option.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
                 if (option.SerializerSettings.ContractResolver == null) return;
                 if (option.SerializerSettings.ContractResolver is DefaultContractResolver resolver) resolver.NamingStrategy = null;
             }).AddMvcOptions(option =>

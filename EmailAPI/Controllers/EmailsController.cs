@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Email.API.Interfaces;
+using Email.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Email.API.Controllers
@@ -26,15 +27,18 @@ namespace Email.API.Controllers
         {
             var loggedEmail = await _loggedEmailRepository.RetrieveLoggedEmailById(id);
 
-            if (loggedEmail == null) return NotFound();
+            if (loggedEmail == null) return NotFound(id);
 
             return Ok(loggedEmail);
         }
 
         [HttpPost]
-        public IActionResult Post()
+        public async Task<IActionResult> Post([FromBody] LoggedEmail loggedEmail)
         {
-            return Accepted();
+            if (loggedEmail == null) return BadRequest();
+            var result = await _loggedEmailRepository.CreateLoggedEmail(loggedEmail);
+            if (result != 1) return BadRequest(loggedEmail);
+            return CreatedAtAction("Post", loggedEmail, result);
         }
     }
 }

@@ -26,5 +26,11 @@ namespace Email.API.Repositories
         {
             return await _context.LoggedEmails.FirstOrDefaultAsync(email => email.Id == id);
         }
+
+        public async Task<int> CreateLoggedEmail(LoggedEmail loggedEmail)
+        {
+            _context.Add(loggedEmail);
+            return await _context.SaveChangesAsync();
+        }
     }
 }

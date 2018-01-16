@@ -12,5 +12,9 @@ namespace Email.API.Models
         public string Subject { get; set; }
         public string Body { get; set; }
         public DateTime DateTimeSent { get; set; }
+        public string CarbonCopy { get; set; }
+        public string BlindCarbonCopies { get; set; }
+        public bool IsBodyHtml { get; set; }
+        public string Priority { get; set; }
     }
 }

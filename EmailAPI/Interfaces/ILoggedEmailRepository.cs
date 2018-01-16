@@ -9,5 +9,6 @@ namespace Email.API.Interfaces
     {
         Task<List<LoggedEmail>> RetrieveAllLoggedEmails();
         Task<LoggedEmail> RetrieveLoggedEmailById(Guid id);
+        Task<int> CreateLoggedEmail(LoggedEmail loggedEmail);
     }
 }
