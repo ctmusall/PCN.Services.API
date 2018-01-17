@@ -11,25 +11,32 @@ namespace Email.API.Repositories
     public class LoggedEmailRepository : ILoggedEmailRepository
     {
         private readonly EmailContext _context;
+        private readonly IEmailRequestUtility _requestUtility;
 
-        public LoggedEmailRepository(EmailContext context)
+        public LoggedEmailRepository(EmailContext context, IEmailRequestUtility requestUtility)
         {
             _context = context;
+            _requestUtility = requestUtility;
         }
 
-        public async Task<List<LoggedEmail>> RetrieveAllLoggedEmails()
+        public async Task<List<EmailLog>> RetrieveAllLoggedEmails()
         {
             return await _context.LoggedEmails.ToListAsync();
         }
 
-        public async Task<LoggedEmail> RetrieveLoggedEmailById(Guid id)
+        public async Task<EmailLog> RetrieveLoggedEmailById(Guid id)
         {
             return await _context.LoggedEmails.FirstOrDefaultAsync(email => email.Id == id);
         }
 
-        public async Task<int> CreateLoggedEmail(LoggedEmail loggedEmail)
+        public async Task<int> LogEmail(EmailRequest emailRequest)
         {
+            var loggedEmail = _requestUtility.ConvertRequestEmailToLoggedEmail(emailRequest);
             _context.Add(loggedEmail);
+
+            var emailContacts = _requestUtility.ConvertEmailContactRequestsToEmailContacts(emailRequest, loggedEmail);
+            _context.AddRange(emailContacts);
+
             return await _context.SaveChangesAsync();
         }
     }

@@ -9,11 +9,16 @@ namespace Email.API.Data
         {
         }
 
-        public DbSet<LoggedEmail> LoggedEmails { get; set; }
+        public DbSet<EmailLog> LoggedEmails { get; set; }
+        public DbSet<EmailContact> EmailContacts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LoggedEmail>().ToTable("LoggedEmail");
+            modelBuilder.Entity<EmailLog>().ToTable("EmailLog");
+            modelBuilder.Entity<EmailContact>().ToTable("EmailContact")
+                .HasOne(e => e.EmailLog)
+                .WithMany(b => b.EmailContacts)
+                .HasForeignKey(e => e.EmailLogId);
         }
     }
 }

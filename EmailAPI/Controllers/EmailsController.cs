@@ -10,10 +10,12 @@ namespace Email.API.Controllers
     public class EmailsController : Controller
     {
         private readonly ILoggedEmailRepository _loggedEmailRepository;
+        private readonly IEmailSender _emailSender;
 
-        public EmailsController(ILoggedEmailRepository loggedEmailRepository)
+        public EmailsController(ILoggedEmailRepository loggedEmailRepository, IEmailSender emailSender)
         {
             _loggedEmailRepository = loggedEmailRepository;
+            _emailSender = emailSender;
         }
 
         [HttpGet]
@@ -27,18 +29,21 @@ namespace Email.API.Controllers
         {
             var loggedEmail = await _loggedEmailRepository.RetrieveLoggedEmailById(id);
 
-            if (loggedEmail == null) return NotFound(id);
+            if (loggedEmail == null) return NotFound(new { message = "Logged Email not found" });
 
             return Ok(loggedEmail);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] LoggedEmail loggedEmail)
+        public async Task<IActionResult> Post([FromBody] EmailRequest emailRequest)
         {
-            if (loggedEmail == null) return BadRequest();
-            var result = await _loggedEmailRepository.CreateLoggedEmail(loggedEmail);
-            if (result != 1) return BadRequest(loggedEmail);
-            return CreatedAtAction("Post", loggedEmail, result);
+            if (!ModelState.IsValid || emailRequest == null) return BadRequest(ModelState);
+
+            //await _emailSender.SendEmail(emailRequest);
+
+            var result = await _loggedEmailRepository.LogEmail(emailRequest);
+
+            return CreatedAtAction("Post", emailRequest, result);
         }
     }
 }

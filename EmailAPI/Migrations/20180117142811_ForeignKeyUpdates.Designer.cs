@@ -11,9 +11,10 @@ using System;
 namespace Email.API.Migrations
 {
     [DbContext(typeof(EmailContext))]
-    partial class EmailContextModelSnapshot : ModelSnapshot
+    [Migration("20180117142811_ForeignKeyUpdates")]
+    partial class ForeignKeyUpdates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,8 +26,6 @@ namespace Email.API.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ContactType");
-
                     b.Property<string>("DisplayName");
 
                     b.Property<string>("EmailAddress")
@@ -35,8 +34,6 @@ namespace Email.API.Migrations
                     b.Property<Guid>("EmailLogId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmailLogId");
 
                     b.ToTable("EmailContact");
                 });
@@ -58,15 +55,7 @@ namespace Email.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmailLog");
-                });
-
-            modelBuilder.Entity("Email.API.Models.EmailContact", b =>
-                {
-                    b.HasOne("Email.API.Models.EmailLog", "EmailLog")
-                        .WithMany("EmailContacts")
-                        .HasForeignKey("EmailLogId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.ToTable("LoggedEmail");
                 });
 #pragma warning restore 612, 618
         }

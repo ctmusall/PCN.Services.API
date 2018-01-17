@@ -1,7 +1,8 @@
 ﻿using Email.API.Data;
+using Email.API.Email;
 using Email.API.Interfaces;
-using Email.API.Models;
 using Email.API.Repositories;
+using Email.API.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -26,8 +27,14 @@ namespace Email.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ILoggedEmailRepository, LoggedEmailRepository>();
+            services.AddTransient<IEmailRequestUtility, EmailRequestUtility>();
+            services.AddTransient<EmailConfig>();
+            services.Configure<EmailConfig>(Configuration.GetSection("Email"));
+
             services.AddDbContext<EmailContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddMvc().AddJsonOptions(option =>
             {
                 option.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;

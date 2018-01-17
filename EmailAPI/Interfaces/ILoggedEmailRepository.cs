@@ -7,8 +7,8 @@ namespace Email.API.Interfaces
 {
     public interface ILoggedEmailRepository
     {
-        Task<List<LoggedEmail>> RetrieveAllLoggedEmails();
-        Task<LoggedEmail> RetrieveLoggedEmailById(Guid id);
-        Task<int> CreateLoggedEmail(LoggedEmail loggedEmail);
+        Task<List<EmailLog>> RetrieveAllLoggedEmails();
+        Task<EmailLog> RetrieveLoggedEmailById(Guid id);
+        Task<int> LogEmail(EmailRequest loggedEmail);
     }
 }

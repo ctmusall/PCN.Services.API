@@ -11,9 +11,10 @@ using System;
 namespace Email.API.Migrations
 {
     [DbContext(typeof(EmailContext))]
-    partial class EmailContextModelSnapshot : ModelSnapshot
+    [Migration("20180117143346_ForeignKey")]
+    partial class ForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,25 +26,21 @@ namespace Email.API.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ContactType");
-
                     b.Property<string>("DisplayName");
 
                     b.Property<string>("EmailAddress")
                         .IsRequired();
 
-                    b.Property<Guid>("EmailLogId");
+                    b.Property<Guid>("LoggedEmailId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmailLogId");
 
                     b.ToTable("EmailContact");
                 });
 
             modelBuilder.Entity("Email.API.Models.EmailLog", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("LoggedEmailId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Body");
@@ -56,17 +53,9 @@ namespace Email.API.Migrations
 
                     b.Property<string>("Subject");
 
-                    b.HasKey("Id");
+                    b.HasKey("LoggedEmailId");
 
-                    b.ToTable("EmailLog");
-                });
-
-            modelBuilder.Entity("Email.API.Models.EmailContact", b =>
-                {
-                    b.HasOne("Email.API.Models.EmailLog", "EmailLog")
-                        .WithMany("EmailContacts")
-                        .HasForeignKey("EmailLogId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.ToTable("LoggedEmail");
                 });
 #pragma warning restore 612, 618
         }

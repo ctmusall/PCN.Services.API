@@ -11,9 +11,10 @@ using System;
 namespace Email.API.Migrations
 {
     [DbContext(typeof(EmailContext))]
-    partial class EmailContextModelSnapshot : ModelSnapshot
+    [Migration("20180117160501_UpdateTableNames")]
+    partial class UpdateTableNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,11 +33,11 @@ namespace Email.API.Migrations
                     b.Property<string>("EmailAddress")
                         .IsRequired();
 
-                    b.Property<Guid>("EmailLogId");
+                    b.Property<Guid>("LoggedEmailId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmailLogId");
+                    b.HasIndex("LoggedEmailId");
 
                     b.ToTable("EmailContact");
                 });
@@ -65,7 +66,7 @@ namespace Email.API.Migrations
                 {
                     b.HasOne("Email.API.Models.EmailLog", "EmailLog")
                         .WithMany("EmailContacts")
-                        .HasForeignKey("EmailLogId")
+                        .HasForeignKey("LoggedEmailId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
