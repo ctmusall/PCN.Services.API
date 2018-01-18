@@ -33,6 +33,7 @@ namespace Email.API
             services.AddTransient<ILoggedEmailRepository, LoggedEmailRepository>();
             services.AddTransient<IEmailRequestUtility, EmailRequestUtility>();
             services.AddTransient<IEmailMessageUtility, EmailMessageUtility>();
+            services.AddTransient<IEmailAttachmentSeeker, EmailAttachmentSeeker>();
             services.AddTransient<MailMessage>();
             services.Configure<EmailConfig>(Configuration.GetSection("Email"));
 

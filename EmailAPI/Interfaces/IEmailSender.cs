@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-using Email.API.Models;
+﻿using Email.API.Models;
 
 namespace Email.API.Interfaces
 {
     public interface IEmailSender
     {
-        Task SendEmail(EmailRequest loggedEmail);
+        void SendEmail(EmailRequest loggedEmail);
     }
 }

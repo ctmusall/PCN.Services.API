@@ -9,35 +9,40 @@ namespace Email.API.Utilities
     public class EmailMessageUtility : IEmailMessageUtility
     {
         private readonly MailMessage _mailMessage;
+        private readonly IEmailAttachmentSeeker _emailAttachmentSeeker;
 
-        public EmailMessageUtility(MailMessage mailMessage)
+        public EmailMessageUtility(MailMessage mailMessage, IEmailAttachmentSeeker emailAttachmentSeeker)
         {
             _mailMessage = mailMessage;
+            _emailAttachmentSeeker = emailAttachmentSeeker;
         }
 
         public MailMessage CreateMailMessageFromEmailRequest(EmailRequest emailRequest)
         {
             AddEmailRequestContacts(emailRequest.To, _mailMessage.To);
-
             AddEmailRequestContacts(emailRequest.Cc, _mailMessage.CC);
-
             AddEmailRequestContacts(emailRequest.Bcc, _mailMessage.Bcc);
-
-            //AddEmailAttachmentRequest(emailRequest.Attachments, _mailMessage.Attachments);
-
             _mailMessage.From = new MailAddress(emailRequest.From.EmailAddress, emailRequest.From.DisplayName);
             _mailMessage.Subject = emailRequest.Subject;
             _mailMessage.Body = emailRequest.Body;
             _mailMessage.IsBodyHtml = emailRequest.IsBodyHtml;
             _mailMessage.Priority = Enum.TryParse(emailRequest.Priority, out MailPriority priority) ? priority : MailPriority.Normal;
 
+            AddEmailAttachmentRequests(emailRequest.Attachments, _mailMessage.Attachments);
+
             return _mailMessage;
         }
 
-        //private static void AddEmailAttachmentRequest(IEnumerable<EmailAttachmentRequest> emailAttachmentRequests, AttachmentCollection mailAddressCollection)
-        //{
-
-        //}
+        private void AddEmailAttachmentRequests(IEnumerable<EmailAttachmentRequest> emailAttachmentRequests, AttachmentCollection mailAddressCollection)
+        {
+            foreach (var att in emailAttachmentRequests)
+            {
+                if (!string.IsNullOrWhiteSpace(att.DocumentUrl))
+                {
+                    mailAddressCollection.Add(_emailAttachmentSeeker.RetrieveAttachmentFromDocumentUrl(att.DocumentUrl));
+                }
+            }
+        }
 
         private static void AddEmailRequestContacts(ICollection<EmailContactRequest> emailContactRequests, MailAddressCollection mailAddressCollection)
         {

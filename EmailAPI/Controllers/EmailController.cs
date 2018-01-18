@@ -26,7 +26,7 @@ namespace Email.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
             if (!ModelState.IsValid || id == Guid.Empty) return BadRequest(ModelState);
 
@@ -38,13 +38,13 @@ namespace Email.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] EmailRequest emailRequest)
+        public IActionResult Post([FromBody] EmailRequest emailRequest)
         {
             if (!ModelState.IsValid || emailRequest == null) return BadRequest(ModelState);
 
-            await _emailSender.SendEmail(emailRequest);
+            _emailSender.SendEmail(emailRequest);
+            _loggedEmailRepository.LogEmail(emailRequest);
 
-            await _loggedEmailRepository.LogEmail(emailRequest);
 
             return Accepted(emailRequest);
         }
