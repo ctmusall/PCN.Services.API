@@ -23,13 +23,21 @@ namespace Email.API.Utilities
 
             AddEmailRequestContacts(emailRequest.Bcc, _mailMessage.Bcc);
 
+            //AddEmailAttachmentRequest(emailRequest.Attachments, _mailMessage.Attachments);
+
             _mailMessage.From = new MailAddress(emailRequest.From.EmailAddress, emailRequest.From.DisplayName);
             _mailMessage.Subject = emailRequest.Subject;
             _mailMessage.Body = emailRequest.Body;
             _mailMessage.IsBodyHtml = emailRequest.IsBodyHtml;
             _mailMessage.Priority = Enum.TryParse(emailRequest.Priority, out MailPriority priority) ? priority : MailPriority.Normal;
+
             return _mailMessage;
         }
+
+        //private static void AddEmailAttachmentRequest(IEnumerable<EmailAttachmentRequest> emailAttachmentRequests, AttachmentCollection mailAddressCollection)
+        //{
+
+        //}
 
         private static void AddEmailRequestContacts(ICollection<EmailContactRequest> emailContactRequests, MailAddressCollection mailAddressCollection)
         {
