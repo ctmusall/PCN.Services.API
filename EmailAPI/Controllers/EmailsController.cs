@@ -39,11 +39,11 @@ namespace Email.API.Controllers
         {
             if (!ModelState.IsValid || emailRequest == null) return BadRequest(ModelState);
 
-            //await _emailSender.SendEmail(emailRequest);
+            await _emailSender.SendEmail(emailRequest);
 
-            var result = await _loggedEmailRepository.LogEmail(emailRequest);
+            await _loggedEmailRepository.LogEmail(emailRequest);
 
-            return CreatedAtAction("Post", emailRequest, result);
+            return Accepted(emailRequest);
         }
     }
 }

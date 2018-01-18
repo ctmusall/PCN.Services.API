@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Email.API.Models
@@ -13,7 +12,6 @@ namespace Email.API.Models
 
         public string Subject { get; set; }
         public string Body { get; set; }
-        public DateTime DateTimeSent { get; set; }
         public ICollection<EmailContactRequest> Cc { get; set; } 
         public ICollection<EmailContactRequest> Bcc { get; set; }  
         public bool IsBodyHtml { get; set; }

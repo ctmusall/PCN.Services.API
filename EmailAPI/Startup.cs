@@ -1,4 +1,5 @@
-﻿using Email.API.Data;
+﻿using System.Net.Mail;
+using Email.API.Data;
 using Email.API.Email;
 using Email.API.Interfaces;
 using Email.API.Repositories;
@@ -30,7 +31,8 @@ namespace Email.API
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ILoggedEmailRepository, LoggedEmailRepository>();
             services.AddTransient<IEmailRequestUtility, EmailRequestUtility>();
-            services.AddTransient<EmailConfig>();
+            services.AddTransient<IEmailMessageUtility, EmailMessageUtility>();
+            services.AddTransient<MailMessage>();
             services.Configure<EmailConfig>(Configuration.GetSection("Email"));
 
             services.AddDbContext<EmailContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
