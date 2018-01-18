@@ -15,6 +15,6 @@ namespace Email.API.Models
         public DateTime DateTimeSent { get; set; }
         public bool IsBodyHtml { get; set; }
         public string Priority { get; set; }
-        public List<EmailContact> EmailContacts { get; set; }
+        public virtual ICollection<EmailContact> EmailContacts { get; set; }
     }
 }

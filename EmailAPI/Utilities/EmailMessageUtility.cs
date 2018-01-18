@@ -27,9 +27,7 @@ namespace Email.API.Utilities
             _mailMessage.Subject = emailRequest.Subject;
             _mailMessage.Body = emailRequest.Body;
             _mailMessage.IsBodyHtml = emailRequest.IsBodyHtml;
-            Enum.TryParse(emailRequest.Priority, out MailPriority priority);
-            _mailMessage.Priority = priority;
-
+            _mailMessage.Priority = Enum.TryParse(emailRequest.Priority, out MailPriority priority) ? priority : MailPriority.Normal;
             return _mailMessage;
         }
 

@@ -5,7 +5,7 @@
     <DockerTargetOS>Windows</DockerTargetOS>
     <ProjectGuid>bd1a1b00-095d-4bed-bee0-7a1fa22513aa</ProjectGuid>
     <DockerLaunchBrowser>True</DockerLaunchBrowser>
-    <DockerServiceUrl>http://{ServiceIPAddress}/api/emails/</DockerServiceUrl>
+    <DockerServiceUrl>http://{ServiceIPAddress}/api/email/</DockerServiceUrl>
     <DockerServiceName>emailapi</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>

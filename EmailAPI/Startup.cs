@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Email.API
 {
@@ -39,6 +40,7 @@ namespace Email.API
 
             services.AddMvc().AddJsonOptions(option =>
             {
+                option.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 option.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
                 if (option.SerializerSettings.ContractResolver == null) return;
                 if (option.SerializerSettings.ContractResolver is DefaultContractResolver resolver) resolver.NamingStrategy = null;
@@ -46,6 +48,11 @@ namespace Email.API
             {
                 option.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
                 option.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
+            });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info {Title = "PCN.Services.API.Email", Version = "v1"});
             });
         }
 
@@ -66,6 +73,13 @@ namespace Email.API
             app.UseStatusCodePages();
 
             app.UseMvc();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "PCN.Services.API.Email v1");
+            });
         }
     }
 }

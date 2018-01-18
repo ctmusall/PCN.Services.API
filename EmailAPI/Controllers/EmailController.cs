@@ -6,13 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Email.API.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
-    public class EmailsController : Controller
+    public class EmailController : Controller
     {
-        private readonly ILoggedEmailRepository _loggedEmailRepository;
         private readonly IEmailSender _emailSender;
+        private readonly ILoggedEmailRepository _loggedEmailRepository;
 
-        public EmailsController(ILoggedEmailRepository loggedEmailRepository, IEmailSender emailSender)
+        public EmailController(ILoggedEmailRepository loggedEmailRepository, IEmailSender emailSender)
         {
             _loggedEmailRepository = loggedEmailRepository;
             _emailSender = emailSender;
@@ -25,11 +26,13 @@ namespace Email.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
+            if (!ModelState.IsValid || id == Guid.Empty) return BadRequest(ModelState);
+
             var loggedEmail = await _loggedEmailRepository.RetrieveLoggedEmailById(id);
 
-            if (loggedEmail == null) return NotFound(new { message = "Logged Email not found" });
+            if (loggedEmail == null) return NotFound(id);
 
             return Ok(loggedEmail);
         }
@@ -44,6 +47,16 @@ namespace Email.API.Controllers
             await _loggedEmailRepository.LogEmail(emailRequest);
 
             return Accepted(emailRequest);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            if (!ModelState.IsValid || id == Guid.Empty) return BadRequest(ModelState);
+
+            await _loggedEmailRepository.DeleteEmailFromLog(id);
+
+            return Accepted(id);
         }
     }
 }

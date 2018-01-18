@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Email.API.Data;
 using Email.API.Interfaces;
@@ -21,12 +22,12 @@ namespace Email.API.Repositories
 
         public async Task<List<EmailLog>> RetrieveAllLoggedEmails()
         {
-            return await _context.LoggedEmails.ToListAsync();
+            return await _context.LoggedEmails.Include(contact => contact.EmailContacts).ToListAsync();
         }
 
         public async Task<EmailLog> RetrieveLoggedEmailById(Guid id)
         {
-            return await _context.LoggedEmails.FirstOrDefaultAsync(email => email.Id == id);
+            return await _context.LoggedEmails.Include(contact => contact.EmailContacts).FirstOrDefaultAsync(email => email.Id == id);
         }
 
         public async Task<int> LogEmail(EmailRequest emailRequest)
@@ -36,6 +37,21 @@ namespace Email.API.Repositories
 
             var emailContacts = _requestUtility.ConvertEmailContactRequestsToEmailContacts(emailRequest, loggedEmail);
             _context.AddRange(emailContacts);
+
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> DeleteEmailFromLog(Guid id)
+        {
+            var emailToDelete = await _context.LoggedEmails.Include(contact => contact.EmailContacts).FirstOrDefaultAsync(email => email.Id == id);
+
+            if (emailToDelete == null) return 0;
+
+            _context.LoggedEmails.Remove(emailToDelete);
+
+            var emailContacts = await _context.EmailContacts.Where(contact => contact.EmailLogId == id).ToListAsync();
+
+            _context.EmailContacts.RemoveRange(emailContacts);
 
             return await _context.SaveChangesAsync();
         }

@@ -10,5 +10,6 @@ namespace Email.API.Interfaces
         Task<List<EmailLog>> RetrieveAllLoggedEmails();
         Task<EmailLog> RetrieveLoggedEmailById(Guid id);
         Task<int> LogEmail(EmailRequest loggedEmail);
+        Task<int> DeleteEmailFromLog(Guid id);
     }
 }
