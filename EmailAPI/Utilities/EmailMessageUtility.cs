@@ -46,6 +46,11 @@ namespace Email.API.Utilities
                 {
                     mailAddressCollection.Add(_emailAttachmentSeeker.RetrieveAttachmentFromNetworkPath(att.DocumentNetworkPath, att.DocumentName));
                 }
+
+                if (!string.IsNullOrWhiteSpace(att.DocumentBase64) && !string.IsNullOrWhiteSpace(att.DocumentMimeType))
+                {
+                    mailAddressCollection.Add(_emailAttachmentSeeker.RetrieveAttachmentFromBase64(att.DocumentBase64, att.DocumentName, att.DocumentMimeType));
+                }
             }
         }
 

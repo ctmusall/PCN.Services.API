@@ -28,9 +28,11 @@ namespace Email.API.Email
             return null;
         }
 
-        public Attachment RetrieveAttachmentFromByteArray(byte[] documentBytes)
+        public Attachment RetrieveAttachmentFromBase64(string documentString, string documentName, string mimeType)
         {
-            return null;
+            var data = Convert.FromBase64String(documentString);
+            var fileExtension = MimeTypeMap.GetExtension(mimeType);
+            return new Attachment(new MemoryStream(data), new ContentType {Name = $"{documentName}{fileExtension}", MediaType = mimeType});
         }
 
         public Attachment RetrieveAttachmentFromNetworkPath(string networkPath, string documentName)

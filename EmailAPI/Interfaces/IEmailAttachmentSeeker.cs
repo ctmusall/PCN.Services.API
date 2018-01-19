@@ -7,7 +7,7 @@ namespace Email.API.Interfaces
     {
         Attachment RetrieveAttachmentFromDocumentUrl(string documentUrl, string documentName);
         Attachment RetrieveAttachmentFromDocRepoId(Guid docRepoId);
-        Attachment RetrieveAttachmentFromByteArray(byte[] documentBytes);
+        Attachment RetrieveAttachmentFromBase64(string documentString, string documentName, string mimeType);
         Attachment RetrieveAttachmentFromNetworkPath(string networkPath, string documentName);
     }
 }
