@@ -39,7 +39,12 @@ namespace Email.API.Utilities
             {
                 if (!string.IsNullOrWhiteSpace(att.DocumentUrl))
                 {
-                    mailAddressCollection.Add(_emailAttachmentSeeker.RetrieveAttachmentFromDocumentUrl(att.DocumentUrl));
+                    mailAddressCollection.Add(_emailAttachmentSeeker.RetrieveAttachmentFromDocumentUrl(att.DocumentUrl, att.DocumentName));
+                }
+
+                if (!string.IsNullOrWhiteSpace(att.DocumentNetworkPath))
+                {
+                    mailAddressCollection.Add(_emailAttachmentSeeker.RetrieveAttachmentFromNetworkPath(att.DocumentNetworkPath, att.DocumentName));
                 }
             }
         }

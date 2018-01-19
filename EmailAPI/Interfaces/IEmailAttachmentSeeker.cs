@@ -1,14 +1,13 @@
 ﻿using System;
-using System.IO;
 using System.Net.Mail;
 
 namespace Email.API.Interfaces
 {
     public interface IEmailAttachmentSeeker
     {
-        Attachment RetrieveAttachmentFromDocumentUrl(string documentUrl);
+        Attachment RetrieveAttachmentFromDocumentUrl(string documentUrl, string documentName);
         Attachment RetrieveAttachmentFromDocRepoId(Guid docRepoId);
         Attachment RetrieveAttachmentFromByteArray(byte[] documentBytes);
-        Attachment RetrieveAttachmentFromStream(Stream documentStream);
+        Attachment RetrieveAttachmentFromNetworkPath(string networkPath, string documentName);
     }
 }
