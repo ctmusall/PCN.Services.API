@@ -383,6 +383,9 @@ namespace DocPortalStreamService
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         eReader = 4,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        EmailApi = 5,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]

@@ -22,6 +22,8 @@ namespace Email.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             return Ok(await _loggedEmailRepository.RetrieveAllLoggedEmails());
         }
 

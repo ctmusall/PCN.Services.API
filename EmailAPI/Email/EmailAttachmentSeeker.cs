@@ -27,7 +27,7 @@ namespace Email.API.Email
         public Attachment RetrieveAttachmentFromDocRepoId(Guid docRepoId)
         {
             var docPortalStreamServiceClient = new DocPortalStreamServiceClient();
-            var x = docPortalStreamServiceClient.DownloadDocumentAsync(new DownloadDocumentRequest { DocRepoId = docRepoId, User = new User {App = AppType.eReader, UserName = ""}}).Result;
+            var x = docPortalStreamServiceClient.DownloadDocumentAsync(new DownloadDocumentRequest { DocRepoId = docRepoId, User = new User {App = AppType.EmailApi, UserName = "emailapi@pcnclosings.com"}}).Result;
             return new Attachment(new MemoryStream(x.FileByteStream), new ContentType {Name = $"{x.DownloadDocumentResultHeader.DocName}", MediaType = $"{x.DownloadDocumentResultHeader.ContentType}"});
         }
 
