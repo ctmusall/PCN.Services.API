@@ -1,4 +1,5 @@
 ﻿using System.Net.Mail;
+using System.Threading.Tasks;
 using Email.API.Interfaces;
 using Email.API.Models;
 using Microsoft.Extensions.Options;
@@ -16,14 +17,13 @@ namespace Email.API.Email
             _emailMessageUtility = emailMessageUtility;
         }
 
-        public void SendEmail(EmailRequest emailRequest)
+        public Task SendEmail(EmailRequest emailRequest)
         {
             var emailMessage = _emailMessageUtility.CreateMailMessageFromEmailRequest(emailRequest);
 
-            using (var client = new SmtpClient(_emailConfig.MailServerAddress, _emailConfig.MailServerPort))
-            {
-                client.Send(emailMessage);
-            }
+            var client = new SmtpClient(_emailConfig.MailServerAddress, _emailConfig.MailServerPort);
+            
+            return client.SendMailAsync(emailMessage);
         }
     }
 }

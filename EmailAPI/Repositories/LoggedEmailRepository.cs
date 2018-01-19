@@ -30,7 +30,7 @@ namespace Email.API.Repositories
             return await _context.LoggedEmails.Include(contact => contact.EmailContacts).FirstOrDefaultAsync(email => email.Id == id);
         }
 
-        public int LogEmail(EmailRequest emailRequest)
+        public Task<int> LogEmail(EmailRequest emailRequest)
         {
             var loggedEmail = _requestUtility.ConvertRequestEmailToLoggedEmail(emailRequest);
             _context.Add(loggedEmail);
@@ -38,7 +38,7 @@ namespace Email.API.Repositories
             var emailContacts = _requestUtility.ConvertEmailContactRequestsToEmailContacts(emailRequest, loggedEmail);
             _context.AddRange(emailContacts);
 
-            return _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
 
         public async Task<int> DeleteEmailFromLog(Guid id)
