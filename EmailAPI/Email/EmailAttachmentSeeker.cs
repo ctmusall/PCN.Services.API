@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
+using DocPortalStreamService;
 using Email.API.Interfaces;
 using MimeTypes;
 
@@ -25,7 +26,9 @@ namespace Email.API.Email
 
         public Attachment RetrieveAttachmentFromDocRepoId(Guid docRepoId)
         {
-            return null;
+            var docPortalStreamServiceClient = new DocPortalStreamServiceClient();
+            var x = docPortalStreamServiceClient.DownloadDocumentAsync(new DownloadDocumentRequest { DocRepoId = docRepoId, User = new User {App = AppType.eReader, UserName = ""}}).Result;
+            return new Attachment(new MemoryStream(x.FileByteStream), new ContentType {Name = $"{x.DownloadDocumentResultHeader.DocName}", MediaType = $"{x.DownloadDocumentResultHeader.ContentType}"});
         }
 
         public Attachment RetrieveAttachmentFromBase64(string documentString, string documentName, string mimeType)

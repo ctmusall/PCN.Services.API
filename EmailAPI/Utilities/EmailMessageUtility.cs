@@ -51,6 +51,11 @@ namespace Email.API.Utilities
                 {
                     mailAddressCollection.Add(_emailAttachmentSeeker.RetrieveAttachmentFromBase64(att.DocumentBase64, att.DocumentName, att.DocumentMimeType));
                 }
+
+                if (att.DocRepoId != Guid.Empty)
+                {
+                    mailAddressCollection.Add(_emailAttachmentSeeker.RetrieveAttachmentFromDocRepoId(att.DocRepoId));
+                }
             }
         }
 

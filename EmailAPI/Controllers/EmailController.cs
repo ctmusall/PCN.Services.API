@@ -49,6 +49,18 @@ namespace Email.API.Controllers
             return Accepted(emailRequest);
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> Post([FromBody] EmailRequest emailRequest)
+        //{
+        //    if (!ModelState.IsValid || emailRequest == null) return BadRequest(ModelState);
+
+        //    await _emailSender.SendEmail(emailRequest);
+
+        //    await _loggedEmailRepository.LogEmail(emailRequest);
+
+        //    return Accepted(emailRequest);
+        //}
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
