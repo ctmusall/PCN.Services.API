@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using Email.API.Authentication;
 using Email.API.Interfaces;
 using Microsoft.Extensions.Options;
@@ -12,23 +13,24 @@ namespace Email.API.Utilities
     public class TokenUtility : ITokenUtility
     {
         private readonly AuthenticationConfig _authenticationConfig;
+        private readonly IApplicationsRepository _applicationsRepository;
 
-        public TokenUtility(IOptions<AuthenticationConfig> authenticationConfig)
+        public TokenUtility(IOptions<AuthenticationConfig> authenticationConfig, IApplicationsRepository applicationsRepository)
         {
+            _applicationsRepository = applicationsRepository;
             _authenticationConfig = authenticationConfig.Value;
         }
 
-        public string GenerateToken(string applicationName)
+        public async Task<string> GenerateToken(string applicationName)
         {
-            return IsValidApplicationIdentity(applicationName) 
+            return await IsValidApplicationIdentity(applicationName) 
                 ? CreateToken(applicationName) 
                 : string.Empty;
         }
 
-        private bool IsValidApplicationIdentity(string applicationName)
+        private async Task<bool> IsValidApplicationIdentity(string applicationName)
         {
-            return true;
-            // TODO - Find in application table application identity. If exists return true else false.
+            return await _applicationsRepository.ApplicationExists(applicationName);
         }
 
         private string CreateToken(string applicationName)

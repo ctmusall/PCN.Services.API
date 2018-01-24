@@ -9,6 +9,7 @@ namespace Email.API.Data
         {
         }
 
+        public DbSet<Application> Applications { get; set; }
         public DbSet<EmailLog> LoggedEmails { get; set; }
         public DbSet<EmailContact> EmailContacts { get; set; }
 
@@ -19,6 +20,7 @@ namespace Email.API.Data
                 .HasOne(e => e.EmailLog)
                 .WithMany(b => b.EmailContacts)
                 .HasForeignKey(e => e.EmailLogId);
+            modelBuilder.Entity<Application>().ToTable("Application");
         }
     }
 }

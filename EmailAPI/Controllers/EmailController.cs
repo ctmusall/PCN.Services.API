@@ -22,7 +22,7 @@ namespace Email.API.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetEmails()
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -31,7 +31,7 @@ namespace Email.API.Controllers
 
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> GetEmail(Guid id)
         {
             if (!ModelState.IsValid || id == Guid.Empty) return BadRequest(ModelState);
 
@@ -44,7 +44,7 @@ namespace Email.API.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] EmailRequest emailRequest)
+        public async Task<IActionResult> PostEmail([FromBody] EmailRequest emailRequest)
         {
             if (!ModelState.IsValid || emailRequest == null) return BadRequest(ModelState);
 
@@ -57,7 +57,7 @@ namespace Email.API.Controllers
 
         [Authorize]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> DeleteEmail(Guid id)
         {
             if (!ModelState.IsValid || id == Guid.Empty) return BadRequest(ModelState);
 

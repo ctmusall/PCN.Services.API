@@ -1,7 +1,9 @@
-﻿namespace Email.API.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace Email.API.Interfaces
 {
     public interface ITokenUtility
     {
-        string GenerateToken(string applicationName);
+        Task<string> GenerateToken(string applicationName);
     }
 }

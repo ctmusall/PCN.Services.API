@@ -1,8 +1,10 @@
-﻿using Email.API.Interfaces;
+﻿using System.Threading.Tasks;
+using Email.API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Email.API.Controllers
 {
+    [Produces("application/json")]
     [Route("/token")]
     public class TokenController : Controller
     {
@@ -14,9 +16,9 @@ namespace Email.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(string applicationName)
+        public async Task<IActionResult> CreateToken(string applicationName)
         {
-            var tokenResult = _tokenUtility.GenerateToken(applicationName);
+            var tokenResult = await _tokenUtility.GenerateToken(applicationName);
 
             if (string.IsNullOrWhiteSpace(tokenResult)) return BadRequest();
 

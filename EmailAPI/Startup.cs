@@ -38,6 +38,7 @@ namespace Email.API
             services.AddTransient<IEmailRequestUtility, EmailRequestUtility>();
             services.AddTransient<IEmailMessageUtility, EmailMessageUtility>();
             services.AddTransient<IEmailAttachmentSeeker, EmailAttachmentSeeker>();
+            services.AddTransient<IApplicationsRepository, ApplicationsRepository>();
             services.AddTransient<ITokenUtility, TokenUtility>();
             services.AddTransient<MailMessage>();
             services.Configure<EmailConfig>(Configuration.GetSection("Email"));
