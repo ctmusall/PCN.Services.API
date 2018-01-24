@@ -43,22 +43,6 @@ namespace Email.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("{name}")]
-        public async Task<IActionResult> GetApplication([FromRoute] string name)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var application = await _applicationsRepository.RetrieveApplicationByName(name);
-
-            if (application == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(application);
-        }
-
-        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutApplication([FromRoute] Guid id, [FromBody] Application application)
         {
