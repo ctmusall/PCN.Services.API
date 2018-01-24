@@ -6,6 +6,11 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "80"
+  services.portal:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
 networks:
   default:
     external:

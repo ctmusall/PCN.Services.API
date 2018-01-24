@@ -6,3 +6,10 @@ services:
     build:
       context: .
       dockerfile: EmailAPI\Dockerfile
+
+  services.portal:
+    image: services.portal
+    build:
+      context: .
+      dockerfile: Services.Portal\Dockerfile
+
