@@ -1,4 +1,7 @@
-﻿using System.Net.Mail;
+﻿using System;
+using System.Net.Mail;
+using System.Text;
+using Email.API.Authentication;
 using Email.API.Data;
 using Email.API.Email;
 using Email.API.Interfaces;
@@ -11,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
@@ -34,10 +38,31 @@ namespace Email.API
             services.AddTransient<IEmailRequestUtility, EmailRequestUtility>();
             services.AddTransient<IEmailMessageUtility, EmailMessageUtility>();
             services.AddTransient<IEmailAttachmentSeeker, EmailAttachmentSeeker>();
+            services.AddTransient<ITokenUtility, TokenUtility>();
             services.AddTransient<MailMessage>();
             services.Configure<EmailConfig>(Configuration.GetSection("Email"));
+            services.Configure<AuthenticationConfig>(Configuration.GetSection("Authentication"));
 
             services.AddDbContext<EmailContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddAuthentication(options => {
+                    options.DefaultAuthenticateScheme = "JwtBearer";
+                    options.DefaultChallengeScheme = "JwtBearer";
+            })
+            .AddJwtBearer("JwtBearer", jwtBearerOptions =>
+            {
+                jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Authentication").Get<AuthenticationConfig>().SecurityKey)),
+                    ValidateIssuer = false,
+                    //ValidIssuer = "The name of the issuer",
+                    ValidateAudience = false,
+                    //ValidAudience = "The name of the audience",
+                    ValidateLifetime = true, //validate the expiration and not before values in the token
+                    ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
+                };
+            });
 
             services.AddMvc().AddJsonOptions(option =>
             {
@@ -72,6 +97,8 @@ namespace Email.API
             }
 
             app.UseStatusCodePages();
+
+            app.UseAuthentication();
 
             app.UseMvc();
 

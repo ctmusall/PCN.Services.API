@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Email.API.Interfaces;
 using Email.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Email.API.Controllers
@@ -19,6 +20,7 @@ namespace Email.API.Controllers
             _emailSender = emailSender;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -27,6 +29,7 @@ namespace Email.API.Controllers
             return Ok(await _loggedEmailRepository.RetrieveAllLoggedEmails());
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -39,6 +42,7 @@ namespace Email.API.Controllers
             return Ok(loggedEmail);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] EmailRequest emailRequest)
         {
@@ -51,6 +55,7 @@ namespace Email.API.Controllers
             return Accepted(emailRequest);
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
