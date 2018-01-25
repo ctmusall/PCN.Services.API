@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Email.API.Data;
 using Email.API.Interfaces;
@@ -32,11 +33,13 @@ namespace Email.API.Repositories
             return await _context.Applications.FirstOrDefaultAsync(app => string.Equals(app.Name, name));
         }
 
-        public Task<int> AddApplication(string applicationName)
+        public async Task<int> AddApplication(string applicationName)
         {
+            if (_context.Applications.Any(app => string.Equals(app.Name, applicationName))) return 0;
+
             _context.Applications.Add(new Application {Name = applicationName});
 
-            return _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
 
         public Task<int> UpdateApplication(Application application)

@@ -67,13 +67,13 @@ namespace Email.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostApplication([FromBody] string applicationName)
+        public async Task<IActionResult> PostApplication(string applicationName)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            await _applicationsRepository.AddApplication(applicationName);
+            var result = await _applicationsRepository.AddApplication(applicationName);
 
-            return Accepted(applicationName);
+            return Accepted(result);
         }
 
         [Authorize]
