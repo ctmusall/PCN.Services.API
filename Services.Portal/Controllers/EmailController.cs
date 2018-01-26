@@ -28,12 +28,34 @@ namespace Services.Portal.Controllers
         {
             return PartialView("_ApplicationsPartial");
         }
+        
+        // TODO - Move logic outside of controller
+        [HttpGet]
+        public async Task<IActionResult> GetApplications(string token)
+        {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.BaseAddress = new Uri("http://localhost:11100"); // TODO - Move to appsettings and load in config object
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    var response = await client.GetAsync("/applications");
+                    response.EnsureSuccessStatusCode();
 
+                    var x = response.Content.ReadAsStringAsync().Result;
+
+                    return Json(x);
+                }
+                catch (HttpRequestException httpRequestException)
+                {
+                    return BadRequest($"Error getting emails from Email API: {httpRequestException.Message}");
+                }
+            }
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetEmails(string token)
         {
-            // TODO - Sent Get request to API
             using (var client = new HttpClient())
             {
                 try
@@ -54,6 +76,7 @@ namespace Services.Portal.Controllers
             }
         }
 
+        // TODO - Move logic outside of controller
         [HttpPost]
         public async Task<IActionResult> GetToken()
         {
