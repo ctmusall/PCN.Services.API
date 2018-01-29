@@ -9,13 +9,19 @@
     ]
   },
   {
-    "outputFileName": "wwwroot/js/site.min.js",
+    "outputFileName": "wwwroot/js/email.min.js",
     "inputFiles": [
-      "wwwroot/js/site.js"
+        "wwwroot/js/email/emailNav.js",
+        "wwwroot/js/email/applications/applicationAuthentication.js",
+        "wwwroot/js/email/applications/applicationGrid.js",
+        "wwwroot/js/email/contact/contactAuthentication.js",
+        "wwwroot/js/email/contact/contactGrid.js",
+        "wwwroot/js/email/log/emailGrid.js",
+        "wwwroot/js/email/contact/emailAuthentication.js"
     ],
     // Optionally specify minification options
     "minify": {
-      "enabled": false,
+      "enabled": true,
       "renameLocals": true
     },
     // Optionally generate .map file

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Email.API.Controllers
 {
     [Produces("application/json")]
-    [Route("/applications")]
+    [Route("/api/Email/[controller]")]
     public class ApplicationsController : Controller
     {
         private readonly IApplicationsRepository _applicationsRepository;

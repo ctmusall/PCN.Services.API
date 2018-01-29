@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Email.API.Controllers
 {
     [Produces("application/json")]
-    [Route("/token")]
+    [Route("/api/Email/[controller]")]
     public class TokenController : Controller
     {
         private readonly ITokenUtility _tokenUtility;
