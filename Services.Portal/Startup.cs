@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Services.Portal.Config;
+using Services.Portal.Interfaces;
+using Services.Portal.Utilities.Email;
 
 namespace Services.Portal
 {
@@ -18,6 +21,10 @@ namespace Services.Portal
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddTransient<IEmailApplicationUtility, EmailApplicationUtility>();
+            services.AddTransient<IEmailLogUtility, EmailLogUtility>();
+            services.AddTransient<IEmailTokenUtility, EmailTokenUtility>();
+            services.Configure<ApiConfig>(Configuration.GetSection("Api"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
