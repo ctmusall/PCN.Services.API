@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Phone.API.Data;
+using Phone.API.Interfaces;
+using Phone.API.Repositories;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Phone.API
 {
@@ -22,6 +25,8 @@ namespace Phone.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IPhoneLogRepository, PhoneLogRepository>();
+
             services.AddDbContext<PhoneContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc().AddJsonOptions(option =>
@@ -34,7 +39,12 @@ namespace Phone.API
             {
                 option.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
                 option.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
-            }); 
+            });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "PCN.Services.API.Phone", Version = "v1"});
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,7 +63,12 @@ namespace Phone.API
 
             // TODO - Add authentication with JWT tokens
 
-            // TODO - Add swagger UI
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "PCN.Services.API.Phone v1");
+            });
 
             app.UseMvc();
         }

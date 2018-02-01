@@ -11,6 +11,7 @@ namespace Phone.API.Data
 
         public DbSet<PhoneLog> PhoneLogs { get; set; }
         public DbSet<PhoneContact> PhoneContacts { get; set; }
+        public DbSet<Application> Applications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -19,6 +20,7 @@ namespace Phone.API.Data
                 .HasOne(p => p.PhoneLog)
                 .WithMany(c => c.PhoneContacts)
                 .HasForeignKey(e => e.PhoneLogId);
+            modelBuilder.Entity<Application>().ToTable("Application");
         }
     }
 }
