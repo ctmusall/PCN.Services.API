@@ -9,6 +9,7 @@ using Newtonsoft.Json.Serialization;
 using Phone.API.Data;
 using Phone.API.Interfaces;
 using Phone.API.Repositories;
+using Phone.API.Utilities;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Phone.API
@@ -26,6 +27,7 @@ namespace Phone.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IPhoneLogRepository, PhoneLogRepository>();
+            services.AddTransient<IPhoneRequestUtility, PhoneRequestUtility>();
 
             services.AddDbContext<PhoneContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
