@@ -4,7 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Services.Portal.Config;
 using Services.Portal.Interfaces;
+using Services.Portal.Utilities;
 using Services.Portal.Utilities.Email;
+using Services.Portal.Utilities.Phone;
 
 namespace Services.Portal
 {
@@ -24,6 +26,9 @@ namespace Services.Portal
             services.AddTransient<IEmailApplicationUtility, EmailApplicationUtility>();
             services.AddTransient<IEmailLogUtility, EmailLogUtility>();
             services.AddTransient<IEmailTokenUtility, EmailTokenUtility>();
+            services.AddTransient<IPhoneLogUtility, PhoneLogUtility>();
+            services.AddTransient<IPhoneTokenUtility, PhoneTokenUtility>();
+            services.AddTransient<IPhoneApplicationUtility, PhoneApplicationUtility>();
             services.Configure<ApiConfig>(Configuration.GetSection("Api"));
         }
 

@@ -23,7 +23,7 @@ namespace Services.Portal.Utilities.Email
             {
                 try
                 {
-                    client.BaseAddress = new Uri(_apiConfig.ServerUri);
+                    client.BaseAddress = new Uri(_apiConfig.EmailApi.ServerUri);
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                     var response = await client.GetAsync(_apiConfig.EmailApi.EmailUri);
                     response.EnsureSuccessStatusCode();

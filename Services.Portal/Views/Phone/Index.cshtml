@@ -1,0 +1,20 @@
+﻿<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+
+@{
+    ViewData["Title"] = "Phone";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Phone</h2>
+
+<ul class="nav nav-pills nav-justified">
+    <li><a href="#" data-toggle="tab" onclick="phoneNav.renderPartial('@Url.Action("Log", "Phone")')">Log</a></li>
+    <li><a href="#" data-toggle="tab" onclick="phoneNav.renderPartial('@Url.Action("Contacts", "Phone")')">Contacts</a></li>
+    <li><a href="#" data-toggle="tab" onclick="phoneNav.renderPartial('@Url.Action("Applications", "Phone")')">Applications</a></li>
+</ul>
+
+<div id="phonePillResponse">
+</div>
+
+<script src="js/phone/phoneNav.js" type="text/javascript"></script>

@@ -6,29 +6,29 @@ using Microsoft.Extensions.Options;
 using Services.Portal.Config;
 using Services.Portal.Interfaces;
 
-namespace Services.Portal.Utilities.Email
+namespace Services.Portal.Utilities.Phone
 {
-    public class EmailTokenUtility : IEmailTokenUtility
+    public class PhoneTokenUtility : IPhoneTokenUtility
     {
         private readonly ApiConfig _apiConfig;
 
-        public EmailTokenUtility(IOptions<ApiConfig> apiConfig)
+        public PhoneTokenUtility(IOptions<ApiConfig> apiConfig)
         {
             _apiConfig = apiConfig.Value;
         }
 
-        public async Task<string> GetEmailToken()
+        public async Task<string> GetPhoneToken()
         {
             using (var client = new HttpClient())
             {
                 try
                 {
-                    client.BaseAddress = new Uri(_apiConfig.EmailApi.ServerUri);
+                    client.BaseAddress = new Uri(_apiConfig.PhoneApi.ServerUri);
                     var content = new FormUrlEncodedContent(new[]
                     {
                         new KeyValuePair<string, string>("applicationName", "Service.Portal")
                     });
-                    var response = await client.PostAsync(_apiConfig.EmailApi.TokenUri, content);
+                    var response = await client.PostAsync(_apiConfig.PhoneApi.TokenUri, content);
                     response.EnsureSuccessStatusCode();
 
                     return await response.Content.ReadAsStringAsync();
