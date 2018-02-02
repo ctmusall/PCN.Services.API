@@ -1,13 +1,12 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Services.API.Common.Authentication;
 using Services.API.Common.Authentication.Interfaces;
 
-namespace Email.API.Controllers
+namespace Phone.API.Controllers
 {
     [Produces("application/json")]
-    [Route("/api/Email/[controller]")]
+    [Route("/api/Phone/[controller]")]
     public class TokenController : Controller
     {
         private readonly ITokenUtility _tokenUtility;

@@ -11,9 +11,10 @@ using System;
 namespace Phone.API.Migrations
 {
     [DbContext(typeof(PhoneContext))]
-    partial class PhoneContextModelSnapshot : ModelSnapshot
+    [Migration("20180201210733_AddFromNumber")]
+    partial class AddFromNumber
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,10 +58,9 @@ namespace Phone.API.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DateTimeSent");
+                    b.Property<string>("From");
 
-                    b.Property<string>("Message")
-                        .IsRequired();
+                    b.Property<string>("Message");
 
                     b.HasKey("Id");
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Phone.API.Interfaces;
 using Phone.API.Models;
@@ -11,12 +12,15 @@ namespace Phone.API.Controllers
     public class PhoneController : Controller
     {
         private readonly IPhoneLogRepository _phoneLogRepository;
+        private readonly IPhoneSender _phoneSender;
 
-        public PhoneController(IPhoneLogRepository phoneLogRepository)
+        public PhoneController(IPhoneLogRepository phoneLogRepository, IPhoneSender phoneSender)
         {
             _phoneLogRepository = phoneLogRepository;
+            _phoneSender = phoneSender;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetPhoneLogs()
         {
@@ -25,6 +29,7 @@ namespace Phone.API.Controllers
             return Ok(await _phoneLogRepository.RetrieveAllPhoneLogs());
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPhoneLog(Guid id)
         {
@@ -37,18 +42,20 @@ namespace Phone.API.Controllers
             return Ok(phoneLog);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> PostPhoneMessage([FromBody] PhoneMessageRequest phoneMessageRequest)
         {
             if (!ModelState.IsValid || phoneMessageRequest == null) return BadRequest(ModelState);
 
-            // TODO - await _phoneSender.SendMessage(phoneMessageRequest);
+            await _phoneSender.SendMessage(phoneMessageRequest);
 
             await _phoneLogRepository.LogPhoneMessage(phoneMessageRequest);
 
             return Accepted(phoneMessageRequest);
         }
 
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> DeletePhoneLog(Guid id)
         {

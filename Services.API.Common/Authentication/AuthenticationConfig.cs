@@ -1,4 +1,4 @@
-﻿namespace Email.API.Authentication
+﻿namespace Services.API.Common.Authentication
 {
     public class AuthenticationConfig
     {

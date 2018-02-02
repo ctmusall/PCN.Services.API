@@ -1,15 +1,22 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Text;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Phone.API.Data;
 using Phone.API.Interfaces;
+using Phone.API.Phone;
 using Phone.API.Repositories;
 using Phone.API.Utilities;
+using Services.API.Common.Authentication;
+using Services.API.Common.Authentication.Interfaces;
+using Services.API.Common.Authentication.Utilities;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Phone.API
@@ -28,8 +35,33 @@ namespace Phone.API
         {
             services.AddTransient<IPhoneLogRepository, PhoneLogRepository>();
             services.AddTransient<IPhoneRequestUtility, PhoneRequestUtility>();
+            services.AddTransient<IPhoneSender, PhoneSender>();
+            services.AddTransient<ITokenUtility, TokenUtility>();
+            services.AddTransient<IApplicationsRepository, ApplicationsRepository>();
+
+            services.Configure<TwilioConfig>(Configuration.GetSection("Twilio"));
+            services.Configure<AuthenticationConfig>(Configuration.GetSection("Authentication"));
 
             services.AddDbContext<PhoneContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddAuthentication(options => {
+                    options.DefaultAuthenticateScheme = "JwtBearer";
+                    options.DefaultChallengeScheme = "JwtBearer";
+                })
+                .AddJwtBearer("JwtBearer", jwtBearerOptions =>
+                {
+                    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Authentication").Get<AuthenticationConfig>().SecurityKey)),
+                        ValidateIssuer = false,
+                        //ValidIssuer = "The name of the issuer",
+                        ValidateAudience = false,
+                        //ValidAudience = "The name of the audience",
+                        ValidateLifetime = true, //validate the expiration and not before values in the token
+                        ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
+                    };
+                });
 
             services.AddMvc().AddJsonOptions(option =>
             {
@@ -63,7 +95,7 @@ namespace Phone.API
 
             app.UseStatusCodePages();
 
-            // TODO - Add authentication with JWT tokens
+            app.UseAuthentication();
 
             app.UseSwagger();
 

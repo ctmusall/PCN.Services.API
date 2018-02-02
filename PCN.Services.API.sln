@@ -9,7 +9,9 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Portal", "Services.Portal\Services.Portal.csproj", "{5FE3B0CC-DB6C-4A16-87C9-6B99BF636291}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phone.API", "Phone.API\Phone.API.csproj", "{213A8B9D-F5FC-4041-BF6A-1F1C6650EFB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phone.API", "Phone.API\Phone.API.csproj", "{213A8B9D-F5FC-4041-BF6A-1F1C6650EFB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.API.Common", "Services.API.Common\Services.API.Common.csproj", "{43134BE8-D495-428D-8B9A-77D804572F6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{213A8B9D-F5FC-4041-BF6A-1F1C6650EFB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{213A8B9D-F5FC-4041-BF6A-1F1C6650EFB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{213A8B9D-F5FC-4041-BF6A-1F1C6650EFB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43134BE8-D495-428D-8B9A-77D804572F6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43134BE8-D495-428D-8B9A-77D804572F6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43134BE8-D495-428D-8B9A-77D804572F6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43134BE8-D495-428D-8B9A-77D804572F6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

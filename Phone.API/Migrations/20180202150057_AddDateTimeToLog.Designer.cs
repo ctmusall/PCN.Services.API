@@ -11,9 +11,10 @@ using System;
 namespace Phone.API.Migrations
 {
     [DbContext(typeof(PhoneContext))]
-    partial class PhoneContextModelSnapshot : ModelSnapshot
+    [Migration("20180202150057_AddDateTimeToLog")]
+    partial class AddDateTimeToLog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

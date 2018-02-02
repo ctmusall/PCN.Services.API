@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Phone.API.Interfaces;
 using Phone.API.Models;
@@ -11,7 +12,8 @@ namespace Phone.API.Utilities
         {
             return new PhoneLog
             {
-                Message = phoneMessageRequest.Message
+                Message = phoneMessageRequest.Message,
+                DateTimeSent = DateTime.Now
             };
         }
 

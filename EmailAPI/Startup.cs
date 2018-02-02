@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Mail;
 using System.Text;
-using Email.API.Authentication;
 using Email.API.Data;
 using Email.API.Email;
 using Email.API.Interfaces;
@@ -17,6 +16,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Services.API.Common.Authentication;
+using Services.API.Common.Authentication.Interfaces;
+using Services.API.Common.Authentication.Utilities;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Email.API
